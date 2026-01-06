@@ -4,6 +4,7 @@ import ticTac from '../images/tic.JPG';
 import randoStory from '../images/Screenshot 2023-11-13 142500.png';
 import mindRead from '../images/mind-reader.JPG';
 import brewAPI from '../images/brewery-api.jpg';
+import CK_pic from '../images/CK_screenshot.png'
 
 
 function ProjectCard(props) {
@@ -29,11 +30,11 @@ console.log('success')
         <div className='row'>
             <ProjectCard title={'React Restaurant'} liveDemo={'https://react-restaurant-mu.vercel.app/'} repoLink={'https://github.com/McTimidation/react-restaurant/tree/main/app/src'} imgsrc={restaurant} text={'A Fake Restaurant page with menus populated from an API'} />
             <ProjectCard title={'Weather App'} liveDemo={'https://mctimidation.github.io/weatherapp/'} repoLink={'https://github.com/McTimidation/weatherapp/blob/main/js/main.js'} imgsrc={weather} text={'An app that pulls weather data for any zipcode'} />
-            <ProjectCard title={'Tic Tac Toe'} liveDemo={'https://tic-tac-toe-hazel-gamma.vercel.app/'} repoLink={'https://github.com/McTimidation/tic-tac-toe/blob/main/script/sandbox.js'} imgsrc={ticTac} text={'A simple game of Tic Tac toe'} />
+            <ProjectCard title={'Work Example'} liveDemo={'https://www.cardinalkinetic.com/'}  imgsrc={CK_pic} text={'Example of previous design Work'} />
         </div>
         <div className='row'>
             <ProjectCard title={'To Do List'} liveDemo={'https://mctimidation.github.io/todo-list/'} repoLink={'https://github.com/McTimidation/todo-list'} imgsrc={randoStory} text={'A fun random story generator'} />
-            <ProjectCard title={'Mind Reader'} liveDemo={'https://mctimidation.github.io/mind-reader/'} repoLink={'https://github.com/McTimidation/mind-reader'} imgsrc={mindRead} text={'An app that can read your mind!'} />
+            <ProjectCard title={'Tic Tac Toe'} liveDemo={'https://tic-tac-toe-hazel-gamma.vercel.app/'} repoLink={'https://github.com/McTimidation/tic-tac-toe/blob/main/script/sandbox.js'} imgsrc={ticTac} text={'A simple game of Tic Tac toe'} />
             <ProjectCard title={'Brewery Locator'} liveDemo={'https://beer-api-flame.vercel.app/'} repoLink={'https://github.com/McTimidation/beer-api'} imgsrc={brewAPI} text={'An app that will show you every brewery for any city'} />
         </div>
         </>
