@@ -22,6 +22,20 @@ function ProjectCard(props) {
     ) 
 }
 
+function WorkCard(props) {
+
+    
+    return (
+        <div className="card col-2 mx-auto">
+            <img src={props.imgsrc} className="card-img-top" alt="..."></img>
+                <div className="card-body">
+                    <h5 className="card-title">{props.title}</h5>
+                    <a target={'#'} href={props.liveDemo} className="btn btn-primary projButton mx-auto">View Site</a>
+                </div>
+        </div>
+    ) 
+}
+
 function PortfolioPage( { state } ) {
 console.log('success')
     if (state === 'portfolio') {
@@ -30,7 +44,7 @@ console.log('success')
         <div className='row'>
             <ProjectCard title={'React Restaurant'} liveDemo={'https://react-restaurant-mu.vercel.app/'} repoLink={'https://github.com/McTimidation/react-restaurant/tree/main/app/src'} imgsrc={restaurant} text={'A Fake Restaurant page with menus populated from an API'} />
             <ProjectCard title={'Weather App'} liveDemo={'https://mctimidation.github.io/weatherapp/'} repoLink={'https://github.com/McTimidation/weatherapp/blob/main/js/main.js'} imgsrc={weather} text={'An app that pulls weather data for any zipcode'} />
-            <ProjectCard title={'Work Example'} liveDemo={'https://www.cardinalkinetic.com/'}  imgsrc={CK_pic} text={'Example of previous design Work'} />
+            <WorkCard title={'Work Example'} liveDemo={'https://www.cardinalkinetic.com/'}  imgsrc={CK_pic} text={'Example of previous design Work'} />
         </div>
         <div className='row'>
             <ProjectCard title={'To Do List'} liveDemo={'https://mctimidation.github.io/todo-list/'} repoLink={'https://github.com/McTimidation/todo-list'} imgsrc={randoStory} text={'A fun random story generator'} />
