@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Python Snake Game</title>
+    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css">
+    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
+    <style>
+        body {
+            background-color: #222;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            font-family: sans-serif;
+        }
+        canvas {
+            border: 2px solid #4CAF50;
+            background-color: #000;
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.5);
+        }
+        #score {
+            font-size: 24px;
+            margin-bottom: 10px;
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .controls {
+            margin-top: 20px;
+            color: #aaa;
+        }
+        h1 {
+            color: #4CAF50;
+            text-shadow: 2px 2px 4px #000;
+        }
+        #loading {
+            position: absolute;
+            font-size: 20px;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>🐍 Python Snake 🐍</h1>
+    <div id="loading">Loading Python Environment...</div>
+    <div id="score">Score: 0</div>
+    <canvas id="gameCanvas" width="400" height="400"></canvas>
+    <div class="controls">Use Arrow Keys to Move (Click game to focus)</div>
+
+    <script type="py">
+        import asyncio
+        from js import document, window
+        from pyodide.ffi import create_proxy
+        import random
+
+        # Hide loading
+        document.getElementById("loading").style.display = "none"
+
+        canvas = document.getElementById("gameCanvas")
+        ctx = canvas.getContext("2d")
+        
+        # Game constants
+        GRID_SIZE = 20
+        TILE_COUNT = 20 # 400/20
+        
+        class SnakeGame:
+            def __init__(self):
+                self.x = 10
+                self.y = 10
+                self.xv = 0
+                self.yv = 0
+                self.trail = []
+                self.tail = 5
+                self.ax = 15
+                self.ay = 15
+                self.score = 0
+                self.game_over = False
+                
+            def reset(self):
+                self.x = 10
+                self.y = 10
+                self.xv = 0
+                self.yv = 0
+                self.trail = []
+                self.tail = 5
+                self.score = 0
+                self.ax = 15
+                self.ay = 15
+                self.game_over = False
+                self.update_score()
+
+            def update(self):
+                if self.game_over:
+                    ctx.fillStyle = "white"
+                    ctx.font = "30px Arial"
+                    ctx.fillText("Game Over!", 110, 200)
+                    ctx.font = "20px Arial"
+                    ctx.fillText("Press Space to Restart", 90, 230)
+                    return
+
+                self.x += self.xv
+                self.y += self.yv
+                
+                # Wrap around
+                if self.x < 0: self.x = TILE_COUNT - 1
+                if self.x > TILE_COUNT - 1: self.x = 0
+                if self.y < 0: self.y = TILE_COUNT - 1
+                if self.y > TILE_COUNT - 1: self.y = 0
+                
+                # Background
+                ctx.fillStyle = "black"
+                ctx.fillRect(0, 0, canvas.width, canvas.height)
+                
+                # Snake
+                ctx.fillStyle = "lime"
+                for i in range(len(self.trail)):
+                    ctx.fillRect(self.trail[i]["x"] * GRID_SIZE, self.trail[i]["y"] * GRID_SIZE, GRID_SIZE - 2, GRID_SIZE - 2)
+                    if self.trail[i]["x"] == self.x and self.trail[i]["y"] == self.y and (self.xv != 0 or self.yv != 0):
+                        # Game Over
+                        self.game_over = True
+
+                self.trail.append({"x": self.x, "y": self.y})
+                while len(self.trail) > self.tail:
+                    self.trail.pop(0)
+                    
+                # Apple
+                if self.ax == self.x and self.ay == self.y:
+                    self.tail += 1
+                    self.score += 1
+                    self.update_score()
+                    # Ensure apple doesn't spawn on snake
+                    while True:
+                        self.ax = int(random.random() * TILE_COUNT)
+                        self.ay = int(random.random() * TILE_COUNT)
+                        on_snake = False
+                        for t in self.trail:
+                            if t["x"] == self.ax and t["y"] == self.ay:
+                                on_snake = True
+                                break
+                        if not on_snake:
+                            break
+                    
+                ctx.fillStyle = "red"
+                ctx.fillRect(self.ax * GRID_SIZE, self.ay * GRID_SIZE, GRID_SIZE - 2, GRID_SIZE - 2)
+                
+            def update_score(self):
+                document.getElementById("score").innerText = f"Score: {self.score}"
+                
+            def key_push(self, event):
+                key = event.key
+                if self.game_over:
+                    if key == " ":
+                        self.reset()
+                    return
+
+                if key == "ArrowLeft" and self.xv != 1:
+                    self.xv = -1; self.yv = 0
+                elif key == "ArrowUp" and self.yv != 1:
+                    self.xv = 0; self.yv = -1
+                elif key == "ArrowRight" and self.xv != -1:
+                    self.xv = 1; self.yv = 0
+                elif key == "ArrowDown" and self.yv != -1:
+                    self.xv = 0; self.yv = 1
+
+        game = SnakeGame()
+        
+        def loop():
+            game.update()
+            
+        async def main_loop():
+            while True:
+                loop()
+                await asyncio.sleep(1/10) # 10 FPS - slower for classic feel
+
+        # Keyboard listener
+        window.addEventListener("keydown", create_proxy(game.key_push))
+        
+        # Start game loop
+        asyncio.ensure_future(main_loop())
+    </script>
+</body>
+</html>

@@ -5,6 +5,7 @@ import randoStory from '../images/Screenshot 2023-11-13 142500.png';
 import mindRead from '../images/mind-reader.JPG';
 import brewAPI from '../images/brewery-api.jpg';
 import CK_pic from '../images/CK_screenshot.png'
+import snake from '../images/snake.png';
 
 
 function ProjectCard(props) {
@@ -50,6 +51,7 @@ console.log('success')
             <ProjectCard title={'To Do List'} liveDemo={'https://mctimidation.github.io/todo-list/'} repoLink={'https://github.com/McTimidation/todo-list'} imgsrc={randoStory} text={'A fun random story generator'} />
             <ProjectCard title={'Tic Tac Toe'} liveDemo={'https://tic-tac-toe-hazel-gamma.vercel.app/'} repoLink={'https://github.com/McTimidation/tic-tac-toe/blob/main/script/sandbox.js'} imgsrc={ticTac} text={'A simple game of Tic Tac toe'} />
             <ProjectCard title={'Brewery Locator'} liveDemo={'https://beer-api-flame.vercel.app/'} repoLink={'https://github.com/McTimidation/beer-api'} imgsrc={brewAPI} text={'An app that will show you every brewery for any city'} />
+            <ProjectCard title={'Python Snake'} liveDemo={'/snake.html'} repoLink={'https://github.com/McTimidation/mctimidation.github.io/blob/main/public/snake.html'} imgsrc={snake} text={'A classic Snake game built with Python and PyScript'} />
         </div>
         </>
     ) }
